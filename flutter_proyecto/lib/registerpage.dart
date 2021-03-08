@@ -42,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _passswordController,
               decoration: InputDecoration(labelText: 'Password'),
+              keyboardType: TextInputType.text,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Ingrese Contraseña';
@@ -60,8 +61,8 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Text(_success == null
                   ? ''
                   : (_success
-                      ? 'Successfully registered' + _userEmail
-                      : 'Registration failed')),
+                      ? '¡Registro Exitoso!' + _userEmail
+                      : 'Registro fallido')),
             )
           ],
         ),

@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         new Padding(padding: new EdgeInsets.only(top: 30.0)),
                         new RaisedButton(
-                          color: Colors.blue,
+                          color: Colors.red,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           padding: new EdgeInsets.all(16.0),
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               new Text(
-                                'Login',
+                                'Iniciar Sesión',
                                 style: new TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w500,
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Divider(),
                         new RaisedButton(
-                          color: Colors.blue,
+                          color: Colors.red,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           padding: new EdgeInsets.all(16.0),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               new Text(
-                                'Google Sign In',
+                                'Ingresa con Google',
                                 style: new TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () => _pushPage(context, SignInDemo()),
                         ),
                         Align(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.center,
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 6,
@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: () => _pushPage(context, RegisterPage()),
                               child: Container(
                                 child: Text(
-                                  'No tienes cuenta? Registrate!',
+                                  '¿No tienes cuenta? Registrate',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     decoration: TextDecoration.underline,
