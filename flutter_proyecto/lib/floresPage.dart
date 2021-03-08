@@ -94,4 +94,17 @@ class _FloresState extends State<Flores> {
         model: "assets/images/model_unquant.tflite",
         labels: "assets/images/labels.txt");
   }
+  /*
+    void _signOut() {
+    FirebaseAuth.instance.signOut();
+    //print('$user');
+    _pushPage(context, LoginPage());
+  }
+
+  void _pushPage(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
+  }
+  */
 }

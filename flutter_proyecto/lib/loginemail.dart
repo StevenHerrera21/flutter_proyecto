@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_proyecto/floresPage.dart';
 import 'package:flutter_proyecto/googlepage.dart';
-import 'package:flutter_proyecto/page.dart';
 import 'package:flutter_proyecto/registerpage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -196,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.clear();
         _passwordController.clear();
         // sign in successful!
-        _pushPage(context, Pintar());
+        _pushPage(context, Flores());
       } else {
         // sign in unsuccessful
         print('sign in Not');

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class RegisterPage extends StatefulWidget {
-  final String title = 'Registration';
+  final String title = 'Registro';
 
   State<StatefulWidget> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _cedulaController = TextEditingController();
+  final TextEditingController _nombresController = TextEditingController();
+  final TextEditingController _apellidosController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passswordController = TextEditingController();
   bool _success;
@@ -27,9 +31,48 @@ class _RegisterPageState extends State<RegisterPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              keyboardType: TextInputType.number,
+              maxLength: 10,
+              controller: _cedulaController,
+              decoration: InputDecoration(
+                labelText: 'Cédula',
+              ),
+              validator: (value) {
+                if (value.isEmpty || value.length <= 9) {
+                  return 'Ingrese su cédula';
+                }
+              },
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              controller: _nombresController,
+              decoration: InputDecoration(
+                labelText: 'Nombres',
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Ingrese sus nombres';
+                }
+              },
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              controller: _apellidosController,
+              decoration: InputDecoration(
+                labelText: 'Apellidos',
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Ingrese sus apellidos';
+                }
+              },
+            ),
+            TextFormField(
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
               validator: (value) {
                 bool emailValid =
                     RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
@@ -71,6 +114,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void dispose() {
+    _cedulaController.dispose();
+    _nombresController.dispose();
+    _apellidosController.dispose();
     _emailController.dispose();
     _passswordController.dispose();
     super.dispose();
@@ -82,6 +128,15 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text,
         password: _passswordController.text,
       );
+      Firestore.instance
+          .collection("Usuarios")
+          .document(_emailController.text)
+          .setData({
+        "Cedula": _cedulaController.text,
+        "Nombres": _nombresController.text,
+        "Apellidos": _apellidosController.text,
+        "Email": _emailController.text,
+      });
       setState(() {
         _success = true;
         _userEmail = user.email;
