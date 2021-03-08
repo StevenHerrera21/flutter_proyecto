@@ -85,6 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _passswordController,
               decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
               keyboardType: TextInputType.text,
               validator: (value) {
                 if (value.isEmpty) {
@@ -140,6 +141,11 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _success = true;
         _userEmail = user.email;
+        _cedulaController.clear();
+        _nombresController.clear();
+        _apellidosController.clear();
+        _emailController.clear();
+        _passswordController.clear();
       });
     } else {
       _success = false;
