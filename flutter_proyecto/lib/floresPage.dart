@@ -1,15 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/providers/resultado_provider.dart';
 import 'dart:io';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
-
-void floresPage() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData.dark(),
-    home: Flores(),
-  ));
-}
 
 class Flores extends StatefulWidget {
   @override
@@ -20,6 +14,8 @@ class _FloresState extends State<Flores> {
   bool _isLoading;
   File _image;
   List _output;
+  ResultadoProvider _resultadoProvider = new ResultadoProvider();
+  CollectionReference resultados = FirebaseFirestore.instance.collection('Usuarios').doc('steventaday8@hotmail.com').collection('results');
 
   @override
   void initState() {
@@ -46,12 +42,10 @@ class _FloresState extends State<Flores> {
           : Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  _buttons(context),
                   _image == null ? Container() : Image.file(_image),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  SizedBox(height: 16,),
                   _output == null ? Text("") : Text("${_output[0]["label"]}")
                 ],
               ),
@@ -63,6 +57,57 @@ class _FloresState extends State<Flores> {
         child: Icon(Icons.image),
       ),
     );
+  }
+
+  Widget _buttons(BuildContext context){
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          RaisedButton(
+            color: Colors.green[300],
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text('Agregar resultado'),
+            ),
+          onPressed: (){
+            _agregarInfo();
+          },
+          ),
+          RaisedButton(
+            color: Colors.yellow[300],
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text('Ver resultados'),
+            ),
+          onPressed: (){
+            Navigator.pushNamed(context, 'results');
+          },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _agregarInfo() async {
+    if(_image==null){
+      print('No se puede agregar');
+    }else{
+      String ruta = await _resultadoProvider.subirImagen(_image);
+      resultados.add({
+        'imagen': ruta,
+        'nombre': _output[0]['label'],
+      })
+      .then((value){
+        print('userAdd');
+        setState(() {
+        _image = null;
+        _output = null; 
+        });
+      })
+      .catchError((error) => print("Failed to add user: $error"));
+    }
   }
 
   escogerImagen() async {
@@ -94,17 +139,11 @@ class _FloresState extends State<Flores> {
         model: "assets/images/model_unquant.tflite",
         labels: "assets/images/labels.txt");
   }
+
   /*
     void _signOut() {
     FirebaseAuth.instance.signOut();
     //print('$user');
     _pushPage(context, LoginPage());
-  }
-
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-  */
+  }*/
 }

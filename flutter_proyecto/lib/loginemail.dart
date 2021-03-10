@@ -1,41 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_proyecto/floresPage.dart';
-import 'package:flutter_proyecto/googlepage.dart';
-import 'package:flutter_proyecto/registerpage.dart';
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Firebase Auth',
-      home: LoginPage(title: 'Firebase Auth'),
-    );
-  }
-}
 
 class LoginPage extends StatefulWidget {
-  final String title;
 
-  LoginPage({Key key, this.title}) : super(key: key);
-
+  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false, //evitar error bottom overflowed
+      //resizeToAvoidBottomPadding: false, //evitar error bottom overflowed
       body: Form(
         key: _formKey,
         //autovalidate: _autovalidate,
@@ -145,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          onPressed: () => _pushPage(context, SignInDemo()),
+                          onPressed: () => Navigator.pushNamed(context, 'sign'),
                         ),
                         Align(
                           alignment: Alignment.center,
@@ -155,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                               right: 32,
                             ),
                             child: InkWell(
-                              onTap: () => _pushPage(context, RegisterPage()),
+                              onTap: () => Navigator.pushNamed(context, 'register'),
                               child: Container(
                                 child: Text(
                                   '¿No tienes cuenta? Registrate',
@@ -183,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
   void signInWithEmail() async {
     // marked async
 
-    FirebaseUser user;
+    UserCredential user;
     try {
       if (_formKey.currentState.validate()) {
         user = await _auth.signInWithEmailAndPassword(
@@ -196,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.clear();
         _passwordController.clear();
         // sign in successful!
-        _pushPage(context, Flores());
+        Navigator.pushNamed(context, 'flores');
       } else {
         // sign in unsuccessful
         print('sign in Not');

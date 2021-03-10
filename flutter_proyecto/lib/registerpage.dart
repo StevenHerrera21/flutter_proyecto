@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -123,13 +123,13 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _register() async {
+  void _register() async {/*
     if (_formKey.currentState.validate()) {
-      final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
+      final UserCredential user = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passswordController.text,
       );
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection("Usuarios")
           .document(_emailController.text)
           .setData({
@@ -149,6 +149,6 @@ class _RegisterPageState extends State<RegisterPage> {
       });
     } else {
       _success = false;
-    }
+    }*/
   }
 }
