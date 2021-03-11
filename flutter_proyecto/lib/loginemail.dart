@@ -15,148 +15,194 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double alto = MediaQuery.of(context).size.height;
     return Scaffold(
       //resizeToAvoidBottomPadding: false, //evitar error bottom overflowed
-      body: Form(
-        key: _formKey,
-        //autovalidate: _autovalidate,
-        child: Container(
-          //padding: EdgeInsets.all(15.0),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: ExactAssetImage('assets/images/login2.jpg'),
-                    fit: BoxFit.cover,
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Column(
+              children: [
+                Container(
+                  child: Icon(
+                    Icons.lock_rounded,
+                    color: Colors.white,
+                    size: 110.0,
                   ),
+                  //En caso de conseguir una imagen png utilizar este codigo
+                  /*child: Center(
+                    child: Image(
+                      image: AssetImage('assets/images/icono-login.png'),
+                      height: 90.0,
+                    ),
+                  ),*/
+                  color: Colors.blue[700],
+                  width: double.infinity,
+                  height: alto*0.35,
                 ),
-              ),
-              Container(
-                child: new Card(
-                  color: Colors.grey[100],
-                  margin: new EdgeInsets.only(
-                      left: 20.0, right: 20.0, top: 250.0, bottom: 80.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  elevation: 8.0,
-                  child: new Padding(
-                    padding: new EdgeInsets.all(25.0),
-                    child: new Column(
-                      children: <Widget>[
-                        new Container(
-                          child: new TextFormField(
-                            maxLines: 1,
-                            keyboardType: TextInputType.emailAddress,
-                            controller: _emailController,
-                            textInputAction: TextInputAction.next,
-                            decoration: new InputDecoration(
-                                labelText: 'Email', icon: Icon(Icons.email)),
-                            validator: (value) {
-                              bool emailValid = RegExp(
-                                      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                                  .hasMatch(value);
-                              if (emailValid == false) {
-                                return 'Ingrese un correo valido';
-                              }
-                            },
+                /*Container(
+                  height: alto*0.70,
+                  color: Colors.white,
+                ),*/
+              ],
+            ),
+          ),
+          Container(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: alto*0.25,),
+                  Form(
+                    key: _formKey,
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(17.0),
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black45,
+                            blurRadius: 25.0,
+                            spreadRadius: 7.0,
+                            offset: Offset(3.0, 20),
+                          )
+                        ]
+                      ),
+                      margin: EdgeInsets.all(25.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 30.0),
+                            child: Text('Login', style: TextStyle(fontSize: 35.0),),
                           ),
-                        ),
-                        new Container(
-                          child: new TextFormField(
-                            maxLines: 1,
-                            controller: _passwordController,
-                            obscureText: true,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            decoration: new InputDecoration(
-                              labelText: 'Password',
-                              icon: Icon(
-                                Icons.vpn_key,
-                                color: Colors.black,
-                              ),
-                            ),
-                            onFieldSubmitted: (value) {
-                              //FocusScope.of(context).requestFocus(_phoneFocusNode);
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Ingrese la contraseña';
-                              }
-                            },
-                          ),
-                        ),
-                        new Padding(padding: new EdgeInsets.only(top: 30.0)),
-                        new RaisedButton(
-                          color: Colors.red,
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                          padding: new EdgeInsets.all(16.0),
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              new Text(
-                                'Iniciar Sesión',
-                                style: new TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            signInWithEmail();
-                          },
-                        ),
-                        Divider(),
-                        new RaisedButton(
-                          color: Colors.red,
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                          padding: new EdgeInsets.all(16.0),
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              new Text(
-                                'Ingresa con Google',
-                                style: new TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          onPressed: () => Navigator.pushNamed(context, 'sign'),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 6,
-                              right: 32,
-                            ),
-                            child: InkWell(
-                              onTap: () => Navigator.pushNamed(context, 'register'),
-                              child: Container(
-                                child: Text(
-                                  '¿No tienes cuenta? Registrate',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          _correo(),
+                          SizedBox(height: 10.0),
+                          _pass(),
+                          SizedBox(height: 20.0,)
+                        ],
+                      ),
                     ),
                   ),
+                  Container(
+                    child: _botones(),
+                    margin: EdgeInsets.symmetric(horizontal: 75.0),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _correo(){
+    return TextFormField(
+      maxLines: 1,
+      keyboardType: TextInputType.emailAddress,
+      controller: _emailController,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          labelText: 'Email', icon: Icon(Icons.email)),
+      validator: (value) {
+        bool emailValid = RegExp(
+                r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+            .hasMatch(value);
+        if (emailValid == false) {
+          return 'Ingrese un correo valido';
+        }
+      },
+    );
+  }
+
+  Widget _pass(){
+    return TextFormField(
+      maxLines: 1,
+      controller: _passwordController,
+      obscureText: true,
+      textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        icon: Icon(
+          Icons.vpn_key,
+          color: Colors.black,
+        ),
+      ),
+      onFieldSubmitted: (value) {
+        //FocusScope.of(context).requestFocus(_phoneFocusNode);
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Ingrese la contraseña';
+        }
+      },
+    );
+  }
+
+  Widget _botones(){
+    return Container(
+      child: Column(
+        children: [
+          RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+               Text(
+                  'Iniciar Sesión',
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            onPressed: () {
+              signInWithEmail();
+            },
+          ),
+          SizedBox(height: 15.0),
+          RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+               Text(
+                  'Ingresa con Google',
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            onPressed: () => Navigator.pushNamed(context, 'sign'),
+          ),
+          SizedBox(height: 15.0),
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, 'register'),
+            child: Container(
+              child: Text(
+                '¿No tienes cuenta? Registrate',
+                style: TextStyle(
+                  color: Colors.grey,
+                  decoration: TextDecoration.underline,
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(height: 15.0),
+        ],
       ),
     );
   }
