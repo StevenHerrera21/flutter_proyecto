@@ -4,6 +4,7 @@ import 'package:flutter_proyecto/providers/resultado_provider.dart';
 import 'dart:io';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Flores extends StatefulWidget {
   @override
@@ -14,8 +15,8 @@ class _FloresState extends State<Flores> {
   bool _isLoading;
   File _image;
   List _output;
+  String email;
   ResultadoProvider _resultadoProvider = new ResultadoProvider();
-  CollectionReference resultados = FirebaseFirestore.instance.collection('Usuarios').doc('steventaday8@hotmail.com').collection('results');
 
   @override
   void initState() {
@@ -25,6 +26,14 @@ class _FloresState extends State<Flores> {
       setState(() {
         _isLoading = false;
       });
+    });
+    FirebaseAuth.instance.authStateChanges().listen((User user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+        this.email = user.email;
+      }
     });
   }
 
@@ -45,7 +54,9 @@ class _FloresState extends State<Flores> {
                 children: <Widget>[
                   _buttons(context),
                   _image == null ? Container() : Image.file(_image),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 16,
+                  ),
                   _output == null ? Text("") : Text("${_output[0]["label"]}")
                 ],
               ),
@@ -59,7 +70,7 @@ class _FloresState extends State<Flores> {
     );
   }
 
-  Widget _buttons(BuildContext context){
+  Widget _buttons(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: Row(
@@ -71,9 +82,9 @@ class _FloresState extends State<Flores> {
               padding: EdgeInsets.all(10.0),
               child: Text('Agregar resultado'),
             ),
-          onPressed: (){
-            _agregarInfo();
-          },
+            onPressed: () {
+              _agregarInfo();
+            },
           ),
           RaisedButton(
             color: Colors.yellow[300],
@@ -81,9 +92,9 @@ class _FloresState extends State<Flores> {
               padding: EdgeInsets.all(10.0),
               child: Text('Ver resultados'),
             ),
-          onPressed: (){
-            Navigator.pushNamed(context, 'results');
-          },
+            onPressed: () {
+              Navigator.pushNamed(context, 'results');
+            },
           ),
         ],
       ),
@@ -91,22 +102,24 @@ class _FloresState extends State<Flores> {
   }
 
   void _agregarInfo() async {
-    if(_image==null){
+    if (_image == null) {
       print('No se puede agregar');
-    }else{
+    } else {
       String ruta = await _resultadoProvider.subirImagen(_image);
+      CollectionReference resultados = FirebaseFirestore.instance
+          .collection('Usuarios')
+          .doc(email)
+          .collection('results');
       resultados.add({
         'imagen': ruta,
         'nombre': _output[0]['label'],
-      })
-      .then((value){
+      }).then((value) {
         print('userAdd');
         setState(() {
-        _image = null;
-        _output = null; 
+          _image = null;
+          _output = null;
         });
-      })
-      .catchError((error) => print("Failed to add user: $error"));
+      }).catchError((error) => print("Failed to add user: $error"));
     }
   }
 
@@ -140,10 +153,8 @@ class _FloresState extends State<Flores> {
         labels: "assets/images/labels.txt");
   }
 
-  /*
-    void _signOut() {
+  /*void _signOut() {
     FirebaseAuth.instance.signOut();
-    //print('$user');
-    _pushPage(context, LoginPage());
+    Navigator.pushNamed(context, 'loginPage');
   }*/
 }

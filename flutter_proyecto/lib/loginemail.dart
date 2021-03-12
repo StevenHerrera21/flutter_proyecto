@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -40,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),*/
                   color: Colors.blue[700],
                   width: double.infinity,
-                  height: alto*0.35,
+                  height: alto * 0.35,
                 ),
                 /*Container(
                   height: alto*0.70,
@@ -53,35 +52,41 @@ class _LoginPageState extends State<LoginPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: alto*0.25,),
+                  SizedBox(
+                    height: alto * 0.25,
+                  ),
                   Form(
                     key: _formKey,
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17.0),
-                        color: Colors.white,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black45,
-                            blurRadius: 25.0,
-                            spreadRadius: 7.0,
-                            offset: Offset(3.0, 20),
-                          )
-                        ]
-                      ),
+                          borderRadius: BorderRadius.circular(17.0),
+                          color: Colors.white,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black45,
+                              blurRadius: 25.0,
+                              spreadRadius: 7.0,
+                              offset: Offset(3.0, 20),
+                            )
+                          ]),
                       margin: EdgeInsets.all(25.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 30.0),
-                            child: Text('Login', style: TextStyle(fontSize: 35.0),),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(fontSize: 35.0),
+                            ),
                           ),
                           _correo(),
                           SizedBox(height: 10.0),
                           _pass(),
-                          SizedBox(height: 20.0,)
+                          SizedBox(
+                            height: 20.0,
+                          )
                         ],
                       ),
                     ),
@@ -99,18 +104,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _correo(){
+  Widget _correo() {
     return TextFormField(
       maxLines: 1,
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          labelText: 'Email', icon: Icon(Icons.email)),
+      decoration: InputDecoration(labelText: 'Email', icon: Icon(Icons.email)),
       validator: (value) {
-        bool emailValid = RegExp(
-                r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-            .hasMatch(value);
+        bool emailValid =
+            RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                .hasMatch(value);
         if (emailValid == false) {
           return 'Ingrese un correo valido';
         }
@@ -118,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _pass(){
+  Widget _pass() {
     return TextFormField(
       maxLines: 1,
       controller: _passwordController,
@@ -143,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _botones(){
+  Widget _botones() {
     return Container(
       child: Column(
         children: [
@@ -155,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-               Text(
+                Text(
                   'Iniciar Sesión',
                   style: TextStyle(
                       fontSize: 14.0,
@@ -167,26 +171,6 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               signInWithEmail();
             },
-          ),
-          SizedBox(height: 15.0),
-          RaisedButton(
-            color: Colors.red,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-               Text(
-                  'Ingresa con Google',
-                  style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-            onPressed: () => Navigator.pushNamed(context, 'sign'),
           ),
           SizedBox(height: 15.0),
           InkWell(
@@ -223,18 +207,36 @@ class _LoginPageState extends State<LoginPage> {
         _emailController.clear();
         _passwordController.clear();
         // sign in successful!
+        //Navigator.pushReplacementNamed(context, 'flores');
         Navigator.pushNamed(context, 'flores');
       } else {
         // sign in unsuccessful
         print('sign in Not');
+        _showAlertDialog();
         // ex: prompt the user to try again
       }
     }
   }
-}
 
-void _pushPage(BuildContext context, Widget page) {
-  Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (_) => page),
-  );
+  void _showAlertDialog() {
+    showDialog(
+        context: context,
+        builder: (buildcontext) {
+          return AlertDialog(
+            title: Text("ALERTA"),
+            content: Text("Usuario o contraseña incorrectos"),
+            actions: <Widget>[
+              RaisedButton(
+                child: Text(
+                  "CERRAR",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 }
