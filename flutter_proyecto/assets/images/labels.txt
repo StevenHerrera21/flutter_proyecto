@@ -1,10 +1,10 @@
 0 Girasol
 1 Petunia
 2 Iris
-3 Loto
+3 Tulipán
 4 Botón de Oro
-5 Magnolia
-6 Jengibre Rojo
+5 Diente de León
+6 Margarita
 7 Rosa 
 8 Flor de la pasión
 9 Flor Silvestre

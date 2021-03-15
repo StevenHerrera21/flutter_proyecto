@@ -53,11 +53,23 @@ class _FloresState extends State<Flores> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buttons(context),
-                  _image == null ? Container() : Image.file(_image),
+                  _image == null
+                      ? Container()
+                      : Image.file(
+                          _image,
+                          height: 300,
+                          width: 500,
+                          fit: BoxFit.fitHeight,
+                        ),
                   SizedBox(
                     height: 16,
                   ),
-                  _output == null ? Text("") : Text("${_output[0]["label"]}")
+                  _output == null || _output.isEmpty
+                      ? Text("Flor no identificada")
+                      : Text('Nombre: ' +
+                          (_output[0]["label"]).toString() +
+                          ' \nConfiabilidad: ' +
+                          (_output[0]['confidence']).toString())
                 ],
               ),
             ),
