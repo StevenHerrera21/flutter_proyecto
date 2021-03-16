@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class Flores extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _FloresState extends State<Flores> {
   File _image;
   List _output;
   String email;
+  final imagePicker = ImagePicker();
   ResultadoProvider _resultadoProvider = new ResultadoProvider();
 
   @override
@@ -73,11 +75,52 @@ class _FloresState extends State<Flores> {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           escogerImagen();
         },
         child: Icon(Icons.image),
+      ),*/
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22, color: Colors.white),
+        backgroundColor: Colors.blue,
+        visible: true,
+        curve: Curves.bounceIn,
+        children: [
+          // FAB 1
+          SpeedDialChild(
+              child: Icon(
+                Icons.image,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                escogerImagen();
+              },
+              label: 'Abrir Galería',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Colors.blue),
+          // FAB 2
+          SpeedDialChild(
+              child: Icon(
+                Icons.camera,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.blue,
+              onTap: () {
+                abrirCamara();
+              },
+              label: 'Abrir Cámara',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Colors.blue)
+        ],
       ),
     );
   }
@@ -137,13 +180,23 @@ class _FloresState extends State<Flores> {
 
   escogerImagen() async {
     // ignore: deprecated_member_use
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await imagePicker.getImage(source: ImageSource.gallery);
     if (image == null) return null;
     setState(() {
       _isLoading = true;
-      _image = image;
+      _image = File(image.path);
     });
-    correrModelo(image);
+    correrModelo(_image);
+  }
+
+  abrirCamara() async {
+    var image = await imagePicker.getImage(source: ImageSource.camera);
+    if (image == null) {
+      return null;
+    } else {
+      _image = File(image.path);
+    }
+    correrModelo(_image);
   }
 
   correrModelo(File image) async {

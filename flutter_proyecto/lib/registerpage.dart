@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),*/
                   color: Colors.blue[700],
                   width: double.infinity,
-                  height: alto*0.40,
+                  height: alto * 0.40,
                 ),
                 /*Container(
                   height: alto*0.70,
@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _formulario(){
+  Widget _formulario() {
     return Form(
       key: _formKey,
       child: Container(
@@ -78,46 +78,49 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text('Informacion de la cuenta', style: TextStyle(fontSize: 25.0),),
+              child: Text(
+                'Informacion de la cuenta',
+                style: TextStyle(fontSize: 25.0),
+              ),
             ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7.0),
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: 25.0,
-                    spreadRadius: 7.0,
-                    offset: Offset(3.0, 20),
-                  )
-                ]
-              ),
+                  borderRadius: BorderRadius.circular(7.0),
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 25.0,
+                      spreadRadius: 7.0,
+                      offset: Offset(3.0, 20),
+                    )
+                  ]),
               child: Column(
-                children: [
-                  _email(),
-                  _pass()
-                ],
+                children: [_email(), _pass()],
               ),
             ),
-            SizedBox(height: 50.0,),
+            SizedBox(
+              height: 65.0,
+            ),
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text('Informacion personal', style: TextStyle(fontSize: 25.0),),
+              child: Text(
+                'Informacion personal',
+                style: TextStyle(fontSize: 25.0),
+              ),
             ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7.0),
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: 25.0,
-                    spreadRadius: 7.0,
-                    offset: Offset(3.0, 20),
-                  )
-                ]
-              ),
+                  borderRadius: BorderRadius.circular(7.0),
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black45,
+                      blurRadius: 25.0,
+                      spreadRadius: 7.0,
+                      offset: Offset(3.0, 20),
+                    )
+                  ]),
               child: Column(
                 children: [
                   _cedula(),
@@ -132,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _email(){
+  Widget _email() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: TextFormField(
@@ -153,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _pass(){
+  Widget _pass() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: TextFormField(
@@ -170,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _cedula(){
+  Widget _cedula() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: TextFormField(
@@ -189,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _nombres(){
+  Widget _nombres() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: TextFormField(
@@ -207,7 +210,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _apellidos(){
+  Widget _apellidos() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: TextFormField(
@@ -225,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _botones(){
+  Widget _botones() {
     return Container(
       child: Column(
         children: [
@@ -256,7 +259,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          SizedBox(height: 25.0,)
+          SizedBox(
+            height: 25.0,
+          )
         ],
       ),
     );

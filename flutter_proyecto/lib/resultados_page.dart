@@ -42,8 +42,11 @@ class _ResultadosPageState extends State<ResultadosPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 20,
+            ),
             Text(
-              'Reconocimiento de plantas',
+              'Listado de plantas',
               style: TextStyle(fontSize: 25),
             ),
             _createInfoFirestore(),
